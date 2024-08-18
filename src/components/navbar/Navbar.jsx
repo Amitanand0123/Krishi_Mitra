@@ -59,53 +59,61 @@ const Navbar = () => {
                 </Link>
             </li>
             <li>
-            <div className="relative">
-                <Link
-                    className="text-gray-900 hover:text-gray-700 transition duration-300 focus:outline-none flex items-center space-x-2"
-                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                >
-                    <FontAwesomeIcon icon={faCircleUser} className="h-6 w-6 text-[#6AC128]" />
-                    {/* Display user name if logged in */}
-                    {user && (
-                        <span className="ml-2">{user.name}</span>
-                    )}
-                </Link>
-
-                {isProfileDropdownOpen && (
-                    <ul className="absolute right-0 text-gray-900 bg-white rounded-lg shadow-lg mt-2 py-2 w-48 z-50"
-                        onMouseLeave={handleMouseLeave}>
-                        {!user && (
-                            <>
-                                <li className="flex items-center space-x-2 hover:bg-gray-200 transition duration-200">
-                                    <FontAwesomeIcon icon={faUserPlus} className="h-5 w-5 ml-2 text-[#6AC128]" />
-                                    <Link to={'/signup'} className="block px-4 py-2" onClick={() => setIsProfileDropdownOpen(false)}>Signup</Link>
-                                </li>
-                                <li className="flex items-center space-x-2 hover:bg-gray-200 transition duration-200">
-                                    <FontAwesomeIcon icon={faSignInAlt} className="h-5 w-5 ml-2 text-[#6AC128]" />
-                                    <Link to={'/login'} className="block px-4 py-2" onClick={() => setIsProfileDropdownOpen(false)}>Login</Link>
-                                </li>
-                            </>
+                <div className="relative">
+                    <Link
+                        className="text-gray-900 hover:text-gray-700 transition duration-300 focus:outline-none flex items-center space-x-2"
+                        onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    >
+                        {user?.imageURL ? (
+                            <img
+                                src={user.imageURL}
+                                alt="Profile"
+                                className="h-6 w-6 rounded-full"
+                            />
+                        ) : (
+                            <FontAwesomeIcon icon={faCircleUser} className="h-6 w-6 text-[#6AC128]" />
                         )}
+                        {/* Display user name if logged in */}
                         {user && (
-                            <>
-                                <li className="hover:bg-gray-200 transition duration-200">
-    <Link 
-        to={user.role === "user" ? '/user-dashboard' : '/admin-dashboard'} 
-        className="block px-4 py-2"
-        onClick={() => setIsProfileDropdownOpen(false)}
-    >
-        My Account
-    </Link>
-</li>
-                                <li className="cursor-pointer hover:bg-gray-200 transition duration-200 block px-4 py-2" onClick={logout}>
-                                    Logout
-                                </li>
-                            </>
+                            <span className="ml-2">{user.name}</span>
                         )}
-                    </ul>
-                )}
-            </div>
-        </li>
+                    </Link>
+
+                    {isProfileDropdownOpen && (
+                        <ul className="absolute right-0 text-gray-900 bg-white rounded-lg shadow-lg mt-2 py-2 w-48 z-50"
+                            onMouseLeave={handleMouseLeave}>
+                            {!user && (
+                                <>
+                                    <li className="flex items-center space-x-2 hover:bg-gray-200 transition duration-200">
+                                        <FontAwesomeIcon icon={faUserPlus} className="h-5 w-5 ml-2 text-[#6AC128]" />
+                                        <Link to={'/signup'} className="block px-4 py-2" onClick={() => setIsProfileDropdownOpen(false)}>Signup</Link>
+                                    </li>
+                                    <li className="flex items-center space-x-2 hover:bg-gray-200 transition duration-200">
+                                        <FontAwesomeIcon icon={faSignInAlt} className="h-5 w-5 ml-2 text-[#6AC128]" />
+                                        <Link to={'/login'} className="block px-4 py-2" onClick={() => setIsProfileDropdownOpen(false)}>Login</Link>
+                                    </li>
+                                </>
+                            )}
+                            {user && (
+                                <>
+                                    <li className="hover:bg-gray-200 transition duration-200">
+                                      <Link 
+                                          to={user.role === "user" ? '/user-dashboard' : '/admin-dashboard'} 
+                                          className="block px-4 py-2"
+                                          onClick={() => setIsProfileDropdownOpen(false)}
+                                      >
+                                          My Account
+                                      </Link>
+                                  </li>
+                                    <li className="cursor-pointer hover:bg-gray-200 transition duration-200 block px-4 py-2" onClick={logout}>
+                                        Logout
+                                    </li>
+                                </>
+                            )}
+                        </ul>
+                    )}
+                </div>
+            </li>
         </ul>
     );
 

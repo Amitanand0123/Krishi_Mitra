@@ -19,6 +19,9 @@ const AddBlogPage = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [imageURL, setImageURL] = useState('');
   const [content, setContent] = useState('');
+  
+  // Retrieve user information
+  const user = JSON.parse(localStorage.getItem('users'));
 
   const handleTagChange = (tag) => {
     if (selectedTags.includes(tag)) {
@@ -36,6 +39,8 @@ const AddBlogPage = () => {
         tags: selectedTags,
         imageURL,
         content,
+        authorName: user?.name || '', // Store author's name
+        authorImageURL: user?.imageURL || '', // Store author's image URL
         timestamp: serverTimestamp(),
       });
       window.location.href = '/blogpage';
@@ -50,6 +55,7 @@ const AddBlogPage = () => {
       <div className="container mx-auto mt-44 px-4">
         <h1 className="text-center text-3xl font-bold mb-8">Add New Blog</h1>
         <form onSubmit={handleAddBlog} className="max-w-2xl mx-auto">
+          {/* Other form fields */}
           <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
             <input
