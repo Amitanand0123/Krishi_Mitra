@@ -4,7 +4,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[url('./img/bgfooter.jpg')] relative">
+    <footer className="bg-[url('/img/bgfooter.jpg')] relative">
       {/* Background Image */}
       {/* <div className="absolute inset-0 z-0">
         <img
