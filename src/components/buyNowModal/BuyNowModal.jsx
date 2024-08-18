@@ -15,11 +15,11 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
             <Button
                 type="button"
                 onClick={handleOpen}
-                className="w-full px-4 py-3 text-center text-gray-100 bg-pink-600 border border-transparent dark:border-gray-700 hover:border-pink-500 hover:text-pink-700 hover:bg-pink-100 rounded-xl"
+                className="w-full px-4 py-3 text-center text-gray-100 bg-green-600 border border-transparent dark:border-gray-700 hover:border-green-500 hover:text-green-700 hover:bg-green-100 rounded-xl"
             >
                 Buy now
             </Button>
-            <Dialog open={open} handler={handleOpen} className=" bg-pink-50">
+            <Dialog open={open} handler={handleOpen} className=" bg-green-50">
                 <DialogBody className="">
                     <div className="mb-3">
                         <input
@@ -33,7 +33,7 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
                                 })
                             }}
                             placeholder='Enter your name'
-                            className='bg-pink-50 border border-pink-200 px-2 py-2 w-full rounded-md outline-none text-pink-600 placeholder-pink-300'
+                            className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none text-green-600 placeholder-green-300'
                         />
                     </div>
                     <div className="mb-3">
@@ -48,7 +48,7 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
                                 })
                             }}
                             placeholder='Enter your address'
-                            className='bg-pink-50 border border-pink-200 px-2 py-2 w-full rounded-md outline-none text-pink-600 placeholder-pink-300'
+                            className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none text-green-600 placeholder-green-300'
                         />
                     </div>
 
@@ -64,7 +64,7 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
                                 })
                             }}
                             placeholder='Enter your pincode'
-                            className='bg-pink-50 border border-pink-200 px-2 py-2 w-full rounded-md outline-none text-pink-600 text-pink-600 placeholder-pink-300'
+                            className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none text-green-600 text-green-600 placeholder-green-300'
                         />
                     </div>
 
@@ -80,7 +80,7 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
                                 })
                             }}
                             placeholder='Enter your mobileNumber'
-                            className='bg-pink-50 border border-pink-200 px-2 py-2 w-full rounded-md outline-none text-pink-600 placeholder-pink-300'
+                            className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none text-green-600 placeholder-green-300'
                         />
                     </div>
 
@@ -92,7 +92,7 @@ const BuyNowModal = ({ addressInfo, setAddressInfo, buyNowFunction }) => {
                                 handleOpen();
                                 buyNowFunction();
                             }}
-                            className="w-full px-4 py-3 text-center text-gray-100 bg-pink-600 border border-transparent dark:border-gray-700 rounded-lg"
+                            className="w-full px-4 py-3 text-center text-gray-100 bg-green-600 border border-transparent dark:border-gray-700 rounded-lg"
                         >
                             Buy now
                         </Button>

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-white relative">
+    <footer className="bg-[url('./img/bgfooter.jpg')] relative">
       {/* Background Image */}
       {/* <div className="absolute inset-0 z-0">
         <img
@@ -103,7 +105,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-6 border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-black font-semibold">
-            ©2024 Krishi Mitra. All rights reserved.
+            &copy; {currentYear} Krishi Mitra. All rights reserved.
           </p>
           <p className="text-black mt-2 md:mt-0 font-semibold">
             Made by Brain Bandits

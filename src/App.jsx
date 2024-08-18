@@ -22,6 +22,9 @@ import { ProtectedRouteForAdmin } from "./protectedRoute/ProtectedRouteForAdmin"
 import CategoryPage from "./pages/category/CategoryPage";
 import KnowYourSoil from "./pages/knowYourSoil/KnowYourSoil";
 import FarmStory from "./pages/farmStory/FarmStory";
+import BlogPage from "./pages/blogPage/BlogPage";
+import AddBlogPage from "./pages/blogPage/AddBlogPage";
+import WeatherPage from "./pages/weather/WeatherPage";
 
 const App = () => {
   return (
@@ -37,15 +40,16 @@ const App = () => {
 
           <Route path="/knowyoursoil" element={<KnowYourSoil />} />
           <Route path="farmstory" element={<FarmStory/>}/>
-          
-
+          <Route path="/blogpage" element={<BlogPage />} />
+          <Route path="/weatherpage" element={<WeatherPage />} />
+          <Route path="/add-blog" element={
+            <AddBlogPage />
+          } />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/category/:categoryname" element={<CategoryPage />} />  {/* category Page route  */}
           <Route path="/user-dashboard" element={
-            <ProtectedRouteForUser> 
-              <UserDashboard />
-            </ProtectedRouteForUser>
+            <UserDashboard />
           } />
           <Route path="/admin-dashboard" element={
             <ProtectedRouteForAdmin>

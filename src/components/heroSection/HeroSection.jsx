@@ -56,10 +56,10 @@ const HeroSection = () => {
 
                 {/* Navigation Arrows */}
                 <div className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl cursor-pointer z-10">
-                    <i className="fas fa-chevron-left"></i>
+                    
                 </div>
                 <div className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl cursor-pointer z-10">
-                    <i className="fas fa-chevron-right"></i>
+                    
                 </div>
             </Swiper>
         </div>
