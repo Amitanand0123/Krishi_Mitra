@@ -14,7 +14,7 @@ const Footer = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90"></div>
       </div> */}
-
+      
       <hr className="my-8 bg-[#6AC128] border-2 relative z-10"/>
       <div className="container mx-auto py-12 px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

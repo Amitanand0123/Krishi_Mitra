@@ -25,6 +25,7 @@ import FarmStory from "./pages/farmStory/FarmStory";
 import BlogPage from "./pages/blogPage/BlogPage";
 import AddBlogPage from "./pages/blogPage/AddBlogPage";
 import WeatherPage from "./pages/weather/WeatherPage";
+import Blog from "./pages/blogPage/Blog";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/knowyoursoil" element={<KnowYourSoil />} />
           <Route path="farmstory" element={<FarmStory/>}/>
           <Route path="/blogpage" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<Blog />} />
           <Route path="/weatherpage" element={<WeatherPage />} />
           <Route path="/add-blog" element={
             <AddBlogPage />
