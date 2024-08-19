@@ -25,7 +25,7 @@ const Chatbot = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer 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`, // Use environment variable for security
+            "Authorization": `Bearer ${process.env.REACT_APP_OPENAI}`, // Use the environment variable
           },
         }
       );
