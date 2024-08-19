@@ -32,6 +32,7 @@ const Footer = () => {
                 className="transition-colors bg-transparent block text-center text-[white] py-2 px-2 text-base hover:text-blue-600 ease-linear hover:ease-in rounded-t-md"
                 rel="noreferrer"
               >
+                {/* Placeholder for additional link if needed */}
               </a>
             </div>
           </div>
@@ -61,7 +62,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Useful Links */}
           <div>
             <h3 className="text-lg font-bold text-black mb-4">Useful Links</h3>
             <ul className="text-black">
@@ -93,7 +94,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Krishi Mitra Description */}
           <div>
             <h3 className="text-lg font-bold text-black mb-4">Krishi Mitra</h3>
             <p className="text-left text-black text-lg leading-relaxed">
