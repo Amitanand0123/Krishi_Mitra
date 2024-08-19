@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Layout from "../../components/layout/Layout";
 import { storage, fireDB } from "../../firebase/FirebaseConfig";
+import { FaSeedling, FaCloudUploadAlt, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+
 
 const KnowYourSoil = () => {
   const [selectedTests, setSelectedTests] = useState([]);
   const [soilPhoto, setSoilPhoto] = useState(null);
-  const [soilInfo, setSoilInfo] = useState('');
+  const [soilType, setSoilType] = useState('');
+  const [extraSoilInfo, setExtraSoilInfo] = useState('');
   const [cropInfo, setCropInfo] = useState('');
   const [selectedCenter, setSelectedCenter] = useState('');
-  const [location, setLocation] = useState('');
   const [manualLocation, setManualLocation] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,35 +28,6 @@ const KnowYourSoil = () => {
     setSoilPhoto(e.target.files[0]);
   };
 
-  const handleCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-
-          try {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_GOOGLE_MAPS_API_KEY`);
-            const data = await response.json();
-
-            if (data.results && data.results.length > 0) {
-              setLocation(data.results[0].formatted_address);
-              setManualLocation('');
-            } else {
-              setError('Unable to retrieve address from coordinates.');
-            }
-          } catch (error) {
-            setError('Error fetching the location. Please try again.');
-          }
-        },
-        (error) => {
-          setError('Unable to retrieve your location.');
-        }
-      );
-    } else {
-      setError('Geolocation is not supported by this browser.');
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -69,10 +42,11 @@ const KnowYourSoil = () => {
       await fireDB.collection('soilBookings').add({
         selectedTests,
         soilPhotoURL: photoURL,
-        soilInfo,
+        soilType,
+        extraSoilInfo,
         cropInfo,
         selectedCenter,
-        location: location || manualLocation,
+        location: manualLocation,
         mobileNumber,
         timestamp: new Date()
       });
@@ -87,122 +61,146 @@ const KnowYourSoil = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6 text-green-700">Book a Soil Health Test</h1>
+      <div className="mt-36 bg-gradient-to-br from-green-50 to-green-100 min-h-screen py-12">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h1 className="text-5xl font-extrabold mb-8 text-green-800 text-center">
+            <FaSeedling className="inline-block mr-4 text-green-600" />
+            Book a Soil Health Test
+          </h1>
 
-        <form onSubmit={handleSubmit} className="bg-green-50 shadow-md rounded-lg p-8">
-          <h2 className="text-2xl font-semibold mb-4 text-green-600">Select Soil Tests</h2>
-          <div className="flex flex-col mb-6">
-            <label className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                value="pH"
-                onChange={handleTestSelection}
-                className="form-checkbox h-5 w-5 text-green-600"
+          <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-3xl p-8 space-y-8">
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Select Soil Tests
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                {['pH', 'Nitrogen', 'Phosphorus', 'Potassium'].map((test) => (
+                  <label key={test} className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg transition-all hover:bg-green-100">
+                    <input
+                      type="checkbox"
+                      value={test}
+                      onChange={handleTestSelection}
+                      className="form-checkbox h-5 w-5 text-green-600 rounded-md"
+                    />
+                    <span className="text-lg text-green-800">{test}</span>
+                  </label>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Upload Soil Photos
+              </h2>
+              <div className="flex items-center justify-center w-full">
+                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-green-300 border-dashed rounded-lg cursor-pointer bg-green-50 hover:bg-green-100">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <FaCloudUploadAlt className="w-10 h-10 mb-3 text-green-600" />
+                    <p className="mb-2 text-sm text-green-700"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p className="text-xs text-green-600">PNG, JPG or GIF (MAX. 800x400px)</p>
+                  </div>
+                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
+                </label>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Soil Information
+              </h2>
+              <select
+                value={soilType}
+                onChange={(e) => setSoilType(e.target.value)}
+                className="w-full p-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500"
+              >
+                <option value="">Select soil type</option>
+                {['Sandy', 'Clay', 'Loam', 'Silt', 'Peat', 'Chalk'].map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              {soilType && (
+                <textarea
+                  value={extraSoilInfo}
+                  onChange={(e) => setExtraSoilInfo(e.target.value)}
+                  placeholder="Provide extra details about your soil (optional)"
+                  className="w-full p-3 mt-4 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500"
+                  rows="4"
+                />
+              )}
+            </section>
+
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Crop Information
+              </h2>
+              <textarea
+                value={cropInfo}
+                onChange={(e) => setCropInfo(e.target.value)}
+                placeholder="Describe the crops you are growing"
+                className="w-full p-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500"
+                rows="4"
               />
-              <span className="ml-2">Soil pH</span>
-            </label>
-            <label className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                value="Nitrogen"
-                onChange={handleTestSelection}
-                className="form-checkbox h-5 w-5 text-green-600"
-              />
-              <span className="ml-2">Nitrogen</span>
-            </label>
-            <label className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                value="Phosphorus"
-                onChange={handleTestSelection}
-                className="form-checkbox h-5 w-5 text-green-600"
-              />
-              <span className="ml-2">Phosphorus</span>
-            </label>
-            <label className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                value="Potassium"
-                onChange={handleTestSelection}
-                className="form-checkbox h-5 w-5 text-green-600"
-              />
-              <span className="ml-2">Potassium</span>
-            </label>
-            {/* Add more tests as needed */}
-          </div>
+            </section>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-green-600">Upload Soil Photos</h2>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="mb-4 p-2 border border-gray-300 rounded w-full"
-          />
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Select Nearest Soil Testing Center
+              </h2>
+              <select
+                value={selectedCenter}
+                onChange={(e) => setSelectedCenter(e.target.value)}
+                className="w-full p-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500"
+              >
+                <option value="">Select a center</option>
+                <option value="Center1">Center 1</option>
+                <option value="Center2">Center 2</option>
+              </select>
+            </section>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-green-600">Soil Information</h2>
-          <textarea
-            value={soilInfo}
-            onChange={(e) => setSoilInfo(e.target.value)}
-            placeholder="Provide details about your soil"
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          />
+            <section>
+              <h2 className="text-3xl font-bold mb-6 text-green-700 border-b-2 border-green-200 pb-2">
+                Location & Contact
+              </h2>
+              <div className="space-y-4">
+                <div className="flex items-center border border-green-300 rounded-lg overflow-hidden">
+                  <span className="p-3 bg-green-100 text-green-600">
+                    <FaMapMarkerAlt />
+                  </span>
+                  <input
+                    type="text"
+                    value={manualLocation}
+                    onChange={(e) => setManualLocation(e.target.value)}
+                    placeholder="Enter location manually"
+                    className="flex-grow p-3 focus:outline-none"
+                  />
+                </div>
+                <div className="flex items-center border border-green-300 rounded-lg overflow-hidden">
+                  <span className="p-3 bg-green-100 text-green-600">
+                    <FaPhoneAlt />
+                  </span>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    placeholder="Your mobile number"
+                    className="flex-grow p-3 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </section>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-green-600">Crop Information</h2>
-          <textarea
-            value={cropInfo}
-            onChange={(e) => setCropInfo(e.target.value)}
-            placeholder="Describe the crops you are growing"
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          />
-
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-green-600">Select Nearest Soil Testing Center</h2>
-          <select
-            value={selectedCenter}
-            onChange={(e) => setSelectedCenter(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          >
-            <option value="">Select a center</option>
-            {/* Populate options dynamically */}
-            <option value="Center1">Center 1</option>
-            <option value="Center2">Center 2</option>
-          </select>
-
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-green-600">Location & Contact</h2>
-          <div className="flex items-center justify-between mb-4">
-            <input
-              type="text"
-              value={manualLocation}
-              onChange={(e) => setManualLocation(e.target.value)}
-              placeholder="Enter location manually"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
             <button
-              type="button"
-              onClick={handleCurrentLocation}
-              className="bg-green-600 hover:bg-green-700 h-10 text-white font-bold text-sm py-1 px-3 rounded ml-4"
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+              disabled={loading}
             >
-              Current Location
+              {loading ? 'Submitting...' : 'Submit Booking'}
             </button>
-          </div>
-          <input
-            type="tel"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-            placeholder="Your mobile number"
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          />
 
-          <button
-            type="submit"
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={loading}
-          >
-            {loading ? 'Submitting...' : 'Submit Booking'}
-          </button>
-
-          {success && <p className="text-green-600 mt-4">Booking submitted successfully!</p>}
-          {error && <p className="text-red-600 mt-4">{error}</p>}
-        </form>
+            {success && <p className="text-green-600 mt-4 text-center font-semibold">Booking submitted successfully!</p>}
+            {error && <p className="text-red-600 mt-4 text-center font-semibold">{error}</p>}
+          </form>
+        </div>
       </div>
     </Layout>
   );

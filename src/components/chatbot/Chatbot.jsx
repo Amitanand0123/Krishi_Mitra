@@ -1,82 +1,94 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-
-const MAX_RETRIES = 5;
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I assist you today?' }]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const previousMessagesRef = useRef([]);
+  const [isOpen, setIsOpen] = useState(true);
 
-  // Function to call OpenAI API with retry logic
-  const callOpenAIAPI = async (newMessages, retryCount = 0) => {
+  const generateResponse = async (prompt) => {
     try {
       const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions", // OpenAI API endpoint
+        'https://api.cohere.ai/v1/generate',
         {
-          model: "gpt-4o-mini", // Adjust this to the specific model you want to use
-          messages: newMessages.map(msg => ({
-            role: msg.sender === 'user' ? 'user' : 'assistant',
-            content: msg.text,
-          })),
-          temperature: 0.7,
+          model: 'command-xlarge-nightly',
+          prompt: prompt,
+          max_tokens: 300,
+          temperature: 0.9,
+          k: 0,
+          stop_sequences: [],
+          return_likelihoods: 'NONE'
         },
         {
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.REACT_APP_OPENAI}`, // Use the environment variable
-          },
+            'Authorization': `Bearer ${import.meta.env.VITE_COHERE_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
         }
       );
-
-      // Extract the chatbot response from OpenAI's response structure
-      return response.data.choices[0].message.content;
+      return response.data.generations[0].text.trim();
     } catch (error) {
-      if (error.response && error.response.status === 429 && retryCount < MAX_RETRIES) {
-        const retryAfter = error.response.headers['retry-after']
-          ? parseInt(error.response.headers['retry-after']) * 1000
-          : 2 ** retryCount * 1000; // Exponential backoff
-        console.warn(`Retrying after ${retryAfter / 1000} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, retryAfter));
-        return callOpenAIAPI(newMessages, retryCount + 1); // Retry with incremented count
-      } else {
-        console.error("Error calling OpenAI API", error.response ? error.response.data : error.message);
-        return "An error occurred. Please try again later."; // Handle generic errors
-      }
+      console.error('Error calling Cohere API:', error);
+      return 'Sorry, I encountered an error. Please try again.';
     }
   };
 
-  // Handle sending a new message
   const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
     const newMessages = [...messages, { sender: 'user', text: input }];
     setMessages(newMessages);
     setInput('');
-    setLoading(true); // Show the loading indicator
+    setLoading(true);
+
+    const conversationHistory = newMessages.map(msg => `${msg.sender}: ${msg.text}`).join('\n');
+    const prompt = `${conversationHistory}\nbot:`;
 
     try {
-      const botResponse = await callOpenAIAPI(newMessages);
+      const botResponse = await generateResponse(prompt);
       setMessages([...newMessages, { sender: 'bot', text: botResponse }]);
-      previousMessagesRef.current = newMessages; // Store previous messages for potential future use
     } catch (error) {
-      setMessages([...newMessages, { sender: 'bot', text: "Sorry, something went wrong. Please try again." }]);
+      setMessages([...newMessages, { sender: 'bot', text: 'Sorry, something went wrong. Please try again.' }]);
     } finally {
-      setLoading(false); // Hide the loading indicator
+      setLoading(false);
     }
   };
 
-  // Handle input key press (Enter to send)
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleSendMessage();
     }
   };
 
+  const toggleChatbot = () => {
+    setIsOpen(!isOpen);
+  };
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={toggleChatbot}
+        className="fixed bottom-6 right-6 p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-all"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+      </button>
+    );
+  }
+
   return (
     <div className="fixed bottom-6 right-6 w-72 md:w-96 bg-white rounded-lg shadow-lg flex flex-col">
-      <div className="flex flex-col flex-grow p-4 overflow-y-auto space-y-4">
+      <div className="flex justify-between items-center p-3 border-b border-gray-200">
+        <h3 className="font-semibold">Chatbot</h3>
+        <button onClick={toggleChatbot} className="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div className="flex flex-col flex-grow p-4 overflow-y-auto space-y-4 max-h-96">
         {messages.map((msg, index) => (
           <div key={index} className={`p-3 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white self-end" : "bg-gray-200 self-start"}`}>
             {msg.text}
@@ -84,7 +96,6 @@ const Chatbot = () => {
         ))}
         {loading && <div className="p-3 bg-gray-200 rounded-lg self-start">Thinking...</div>}
       </div>
-
       <div className="flex items-center border-t border-gray-200 p-3">
         <input
           type="text"
@@ -94,7 +105,7 @@ const Chatbot = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button 
+        <button
           onClick={handleSendMessage}
           className="ml-3 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
         >
