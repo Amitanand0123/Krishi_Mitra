@@ -15,7 +15,7 @@ const AllProduct = () => {
     const cartItems = useSelector((state) => state.cart);
     const dispatch = useDispatch();
 
-    const [selectedCategory, setSelectedCategory] = useState("All");
+    const [selectedCategory, setSelectedCategory] = useState("all");
 
     // Define categories with images
     const categoriesData = [
