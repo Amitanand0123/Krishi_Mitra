@@ -8,16 +8,16 @@ import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 
 const features = [
     {
-        icon: 'fa-seedling',
-        title: 'Real-Time Monitoring',
-        description: "Keep track of your farm's conditions with real-time data and remote system control, ensuring optimal growth and productivity.",
-        image: '../img/farm1.jpg',
-    },
-    {
         icon: 'fa-chart-line',
         title: 'AI-Driven Forecasting',
         description: 'Utilize advanced AI to predict market needs and weather patterns, helping you make informed decisions and maximize your yield.',
         image: '../img/farm2.jpg',
+    },
+    {
+        icon: 'fa-seedling',
+        title: 'Real-Time Monitoring',
+        description: "Keep track of your farm's conditions with real-time data and remote system control, ensuring optimal growth and productivity.",
+        image: '../img/farm1.jpg',
     },
     {
         icon: 'fa-store',

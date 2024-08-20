@@ -17,7 +17,16 @@ const categoryList = [
     },
     {
         name: 'electronics'
-    }
+    },
+    {
+        name: 'irrigation'
+    },
+    {
+        name: 'fertilizers'
+    },
+    {
+        name: 'machinery'
+    },
 ]
 
 const AddProductPage = () => {

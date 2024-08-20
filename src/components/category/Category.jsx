@@ -13,6 +13,18 @@ const category = [
     {
         image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
         name: 'electronics'
+    },
+    {
+        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
+        name: 'machinery'
+    },
+    {
+        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
+        name: 'fertilizers'
+    },
+    {
+        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
+        name: 'irrigation'
     }
 ]
 
