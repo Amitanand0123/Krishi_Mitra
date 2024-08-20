@@ -19,13 +19,13 @@ const AllProduct = () => {
 
     // Define categories with images
     const categoriesData = [
-        { name: "All", image: "/path/to/all-image.jpg" },
-        { name: "Electronics", image: "/path/to/electronics-image.jpg" },
-        { name: "Tools", image: "/path/to/tools-image.jpg" },
-        { name: "Seeds", image: "/path/to/seeds-image.jpg" },
-        { name: "Machinery", image: "/path/to/machinery-image.jpg" },
-        { name: "Fertilizers", image: "/path/to/fertilizers-image.jpg" },
-        { name: "Irrigation", image: "/path/to/irrigation-image.jpg" }
+        { name: "All", image: "/img/all.jpeg" },
+        { name: "Electronics", image: "/img/electro.jpeg" },
+        { name: "Tools", image: "/img/tools-image.jpeg" },
+        { name: "Seeds", image: "/img/seeds.jpeg" },
+        { name: "Machinery", image: "/img/machinery_user.jpeg" },
+        { name: "Fertilizers", image: "/img/ferti.jpeg" },
+        { name: "Irrigation", image: "/img/irri.jpeg" }
     ];
 
     const addCart = (item) => {
