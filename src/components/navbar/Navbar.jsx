@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faBook, faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
     const user = JSON.parse(localStorage.getItem('users'));
@@ -40,10 +40,6 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>KNOW YOUR SOIL</Link>
             </li>
-           {/* <li className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faBook} className="h-6 w-6 text-[#6AC128] lg:hidden" />
-                <Link to={'/farmstory'} onClick={() => setIsMobileMenuOpen(false)}>FARM BLOG</Link>
-            </li>*/}
             <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faCloud} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/weatherpage'} onClick={() => setIsMobileMenuOpen(false)}>WEATHER</Link>
@@ -118,7 +114,7 @@ const Navbar = () => {
     );
 
     return (
-        <nav className="fixed top-0 left-0 w-full flex justify-center py-4 z-50">
+        <nav className=" top-0 left-0 w-full flex justify-center py-4 z-50">
             <div className="bg-white w-11/12 lg:w-10/12 flex justify-between items-center px-6 py-2 rounded-lg shadow-lg">
                 <div className="flex items-center">
                     <Link to={'/'}>

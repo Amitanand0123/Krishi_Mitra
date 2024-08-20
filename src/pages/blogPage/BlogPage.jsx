@@ -43,8 +43,8 @@ const BlogPage = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto mt-44 px-4">
-        <h1 className="text-center text-3xl font-bold mb-8">Farm Blogs</h1>
+      <div className="container mx-auto mt-30 px-4">
+        <h1 className="text-center text-3xl font-bold mb-6">Farm Blogs</h1>
 
         <h2 className=' text-center text-2xl font-semibold mb-10' > Listen to the <span className=' text-green-500'>tricks and tips</span> of our <span className=' text-green-500'>users</span> .</h2>
 
