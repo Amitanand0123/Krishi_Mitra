@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faBook, faSignInAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faBook, faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
     const user = JSON.parse(localStorage.getItem('users'));
@@ -40,17 +40,17 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>KNOW YOUR SOIL</Link>
             </li>
-            <li className="flex items-center space-x-2">
+           {/* <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faBook} className="h-6 w-6 text-[#6AC128] lg:hidden" />
-                <Link to={'/farmstory'} onClick={() => setIsMobileMenuOpen(false)}>FARM STORY</Link>
-            </li>
+                <Link to={'/farmstory'} onClick={() => setIsMobileMenuOpen(false)}>FARM BLOG</Link>
+            </li>*/}
             <li className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faBook} className="h-6 w-6 text-[#6AC128] lg:hidden" />
+                <FontAwesomeIcon icon={faCloud} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/weatherpage'} onClick={() => setIsMobileMenuOpen(false)}>WEATHER</Link>
             </li>
             <li className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faBook} className="h-6 w-6 text-[#6AC128] lg:hidden" />
-                <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>BLOG</Link>
+                <FontAwesomeIcon icon={faBlog} className="h-6 w-6 text-[#6AC128] lg:hidden" />
+                <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>FARM BLOG</Link>
             </li>
             <li>
                 <Link to={'/cart'} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center space-x-2">
