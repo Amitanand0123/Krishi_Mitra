@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf,faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
+
 const Navbar = () => {
     const user = JSON.parse(localStorage.getItem('users'));
     const navigate = useNavigate();

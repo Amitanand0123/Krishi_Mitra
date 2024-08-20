@@ -15,7 +15,7 @@ const AllProduct = () => {
     const cartItems = useSelector((state) => state.cart);
     const dispatch = useDispatch();
 
-    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
     // Define categories with images
     const categoriesData = [
@@ -29,7 +29,7 @@ const AllProduct = () => {
     ];
 
     const addCart = (item) => {
-        dispatch(addToCart(item));
+        dispatch(addToCart(item)); 
         toast.success("Added to cart");
     };
 
@@ -76,7 +76,7 @@ const AllProduct = () => {
                         <div
                             key={index}
                             onClick={() => addCategory(category.name)}
-                            className={`p-4 w-24 h-24 rounded-full m-2 cursor-pointer flex flex-col items-center ${
+                            className={`p-4 w-25 h-25 rounded-full m-2 cursor-pointer flex flex-col items-center ${
                                 selectedCategory === category.name
                                     ? "bg-blue-500 text-white"
                                     : "bg-gray-200"
