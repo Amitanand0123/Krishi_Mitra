@@ -72,9 +72,9 @@ const KnowYourSoil = () => {
 
   return (
     <Layout>
-      <div className="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3PamJaNlsX1FaSwjyOOqvs4hffKwVWNnyAg&s')] bg-cover mt-30 bg-gradient-to-br from-green-50 to-green-100 min-h-screen py-12">
+      <div className="bg-gradient-to-br from-green-50 to green-100 bg-cover mt-30 min-h-screen py-12">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-5xl font-extrabold mb-8 text-green-800 text-center">
+          <h1 className="text-5xl font-extrabold mb-8 text-green-700 text-center">
             <FaSeedling className="inline-block mr-4 text-green-600" />
             Book a Soil Health Test
           </h1>

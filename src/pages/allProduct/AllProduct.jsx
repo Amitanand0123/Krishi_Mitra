@@ -10,7 +10,8 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faMapLocationDot, faPhone, faSearch } from "@fortawesome/free-solid-svg-icons";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const AllProduct = () => {
     const navigate = useNavigate();
@@ -142,6 +143,9 @@ const AllProduct = () => {
                     </div>
                 </div>
 
+                {/*SearchBar */}
+                <SearchBar products={products}/>
+
                 {/* List Product for Rent */}
                 <div className="text-center mt-8">
                             <Link
@@ -151,6 +155,7 @@ const AllProduct = () => {
                                 List Your Equipment for Rent
                             </Link>
                         </div>
+                                        
 
                 {/* Main Product Listing */}
                 <section className="text-gray-600 body-font">

@@ -27,6 +27,7 @@ import AddBlogPage from "./pages/blogPage/AddBlogPage";
 import WeatherPage from "./pages/weather/WeatherPage";
 import Blog from "./pages/blogPage/Blog";
 import RentProduct from "./pages/allProduct/RentProduct";
+import SearchBar from "./components/searchBar/SearchBar";
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
           } />
 
           <Route path="/knowyoursoil" element={<KnowYourSoil />} />
+          <Route path="/searchbar" element={<SearchBar />} />
           <Route path="farmstory" element={<FarmStory/>}/>
           <Route path="/blogpage" element={<BlogPage />} />
           <Route path="/blog/:id" element={<Blog />} />
