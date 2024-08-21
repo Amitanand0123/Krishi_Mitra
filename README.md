@@ -19,3 +19,20 @@ Follow these steps to set up and run the project locally:
 
    ```bash
    git clone https://github.com/Amitanand0123/Krishi_Mitra.git
+
+2. **Navigate to the Project Directory**
+
+   ```bash
+   cd Krishi_Mitra
+
+3. **Install Required Dependencies**
+
+   ```bash
+   npm install
+
+4. **Start the Development Server**
+
+   ```bash
+   npm run dev
+
+   
