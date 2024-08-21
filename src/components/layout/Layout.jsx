@@ -11,8 +11,9 @@ const Layout = ({ children }) => {
                 {children}
             </div>
             
-            <Chatbot/>
+            
             <Footer />
+            <Chatbot/>
             {/* <BackToTop/> */}
         </div>
     );
