@@ -10,7 +10,7 @@ import Footer from "../../components/footer/Footer";
 
 const categoryList = [
     {
-        name: 'seeds'
+        name: 'vehicles'
     },
     {
         name: 'tools'
@@ -18,15 +18,7 @@ const categoryList = [
     {
         name: 'electronics'
     },
-    {
-        name: 'irrigation'
-    },
-    {
-        name: 'fertilizers'
-    },
-    {
-        name: 'machinery'
-    },
+   
 ]
 
 const AddProductPage = () => {
