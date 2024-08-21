@@ -104,7 +104,7 @@ const OrderDetail = () => {
                                 return (
                                     <>
                                         {order.cartItems.map((item, index) => {
-                                            const { id, productImageUrl, title, category, price, quantity } = item
+                                            const { id, productImageUrl, title, category, price, quantity, contact, location } = item
                                             return (
                                                 <tr key={index} className="text-green-300">
                                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 ">
@@ -137,6 +137,14 @@ const OrderDetail = () => {
 
                                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                                                         ₹{price * quantity}
+                                                    </td>
+
+                                                    <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
+                                                        {contact}
+                                                    </td>
+
+                                                    <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
+                                                        {location}
                                                     </td>
 
                                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l text-green-600  first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">

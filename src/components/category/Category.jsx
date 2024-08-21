@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 const category = [
     {
         image: 'https://cdn-icons-png.flaticon.com/256/4359/4359963.png',
-        name: 'seeds'
+        name: 'vehicles'
     },
     {
         image: 'https://cdn-icons-png.flaticon.com/256/11833/11833323.png',
@@ -14,18 +14,7 @@ const category = [
         image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
         name: 'electronics'
     },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
-        name: 'machinery'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
-        name: 'fertilizers'
-    },
-    {
-        image: 'https://cdn-icons-png.flaticon.com/256/8174/8174424.png',
-        name: 'irrigation'
-    }
+    
 ]
 
 const Category = () => {

@@ -135,7 +135,7 @@ const UserDashboard = () => {
                                 return (
                                     <div key={index}>
                                         {order.cartItems.map((item, index) => {
-                                            const { id, date, quantity, price, title, productImageUrl, category } = item;
+                                            const { id, date, quantity, price, title, productImageUrl, category, location, contact } = item;
                                             const { status } = order;
                                             return (
                                                 <div
@@ -186,6 +186,8 @@ const UserDashboard = () => {
                                                                             <div className="flex-1">
                                                                                 <p className="text-sm font-bold text-gray-900">{title}</p>
                                                                                 <p className="mt-1.5 text-sm font-medium text-gray-500">{category}</p>
+                                                                                <p className="mt-1.5 text-sm font-medium text-gray-500">{location}</p>
+                                                                                <p className="mt-1.5 text-sm font-medium text-gray-500">{contact}</p>
                                                                             </div>
                                                                             <p className="mt-4 text-sm font-medium text-gray-500">x {quantity}</p>
                                                                         </div>

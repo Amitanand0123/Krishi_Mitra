@@ -8,7 +8,7 @@ import Loader from "../../components/loader/Loader";
 
 const categoryList = [
     {
-        name: 'seeds'
+        name: 'vehicles'
     },
     {
         name: 'tools'
@@ -34,6 +34,8 @@ const UpdateProductPage = () => {
         productImageUrl: "",
         category: "",
         description: "",
+        location: "",
+        contact: "",
         time: Timestamp.now(),
         date: new Date().toLocaleString(
             "en-US",
@@ -57,6 +59,8 @@ const UpdateProductPage = () => {
                 productImageUrl: product?.productImageUrl,
                 category: product?.category,
                 description: product?.description,
+                location: product?.location,
+                contact: product?.contact,
                 quantity : product?.quantity,
                 time: product?.time,
                 date: product?.date
@@ -184,6 +188,40 @@ const UpdateProductPage = () => {
                             }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-green-300 bg-green-50 border border-green-200 rounded-md outline-none placeholder-green-300 ">
 
                         </textarea>
+                    </div>
+
+                     {/* Input Six  */}
+                     <div className="mb-3">
+                        <input
+                            type="text"
+                            name="location"
+                            value={product.location}
+                            onChange={(e) => {
+                                setProduct({
+                                    ...product,
+                                    location: e.target.value
+                                })
+                            }}
+                            placeholder='Renter Location'
+                            className='bg-green-50 border text-green-300 border-green-200 px-2 py-2 w-96 rounded-md outline-none placeholder-green-300'
+                        />
+                    </div>
+
+                     {/* Input Seven  */}
+                     <div className="mb-3">
+                        <input
+                            type="number"
+                            name="contact"
+                            value={product.contact}
+                            onChange={(e) => {
+                                setProduct({
+                                    ...product,
+                                    contact: e.target.value
+                                })
+                            }}
+                            placeholder='Renter Contact No.'
+                            className='bg-green-50 border text-green-300 border-green-200 px-2 py-2 w-96 rounded-md outline-none placeholder-green-300'
+                        />
                     </div>
 
                     {/* Update Product Button  */}
