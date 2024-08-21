@@ -26,8 +26,6 @@ const CartPage = () => {
         dispatch(decrementQuantity(id));
     };
 
-    // const cartQuantity = cartItems.length;
-
     const cartItemTotal = cartItems.map(item => item.quantity).reduce((prevValue, currValue) => prevValue + currValue, 0);
 
     const cartTotal = cartItems.map(item => item.price * item.quantity).reduce((prevValue, currValue) => prevValue + currValue, 0);
@@ -37,10 +35,8 @@ const CartPage = () => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems])
 
-    // user
     const user = JSON.parse(localStorage.getItem('users'))
 
-    // Buy Now Function
     const [addressInfo, setAddressInfo] = useState({
         name: "",
         address: "",
@@ -58,12 +54,10 @@ const CartPage = () => {
     });
 
     const buyNowFunction = () => {
-        // validation 
         if (addressInfo.name === "" || addressInfo.address === "" || addressInfo.pincode === "" || addressInfo.mobileNumber === "") {
             return toast.error("All Fields are required")
         }
 
-        // Order Info 
         const orderInfo = {
             cartItems,
             addressInfo,
@@ -93,8 +87,8 @@ const CartPage = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
+
     return (
         <Layout>
             <div className="container mx-auto px-4 max-w-7xl lg:px-0">
@@ -176,7 +170,6 @@ const CartPage = () => {
                                     <h1>Not Found</h1>}
                             </ul>
                         </section>
-                        {/* Order summary */}
                         <section
                             aria-labelledby="summary-heading"
                             className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
@@ -225,5 +218,3 @@ const CartPage = () => {
 }
 
 export default CartPage;
-
-

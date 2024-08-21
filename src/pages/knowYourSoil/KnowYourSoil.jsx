@@ -165,6 +165,8 @@ const KnowYourSoil = () => {
                 <option value="">Select a center</option>
                 <option value="Center1">Center 1</option>
                 <option value="Center2">Center 2</option>
+                <option value="Center3">Center 3</option>
+                <option value="Center4">Center 4</option>
               </select>
             </section>
 
