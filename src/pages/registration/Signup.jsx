@@ -156,6 +156,19 @@ const Signup = () => {
           />
         </div>
 
+        {/* Role Selection */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Register As</label>
+          <select
+            value={userSignup.role}
+            onChange={(e) => setUserSignup({ ...userSignup, role: e.target.value })}
+            className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none transition'
+          >
+            <option value="user">Consumer</option>
+            <option value="admin">Farmer</option>
+          </select>
+        </div>
+
         {/* Signup Button */}
         <div className="mb-4">
           <button

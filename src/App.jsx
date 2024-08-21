@@ -26,6 +26,7 @@ import BlogPage from "./pages/blogPage/BlogPage";
 import AddBlogPage from "./pages/blogPage/AddBlogPage";
 import WeatherPage from "./pages/weather/WeatherPage";
 import Blog from "./pages/blogPage/Blog";
+import RentProduct from "./pages/allProduct/RentProduct";
 
 const App = () => {
   return (
@@ -38,6 +39,11 @@ const App = () => {
           <Route path="/productinfo/:id" element={<ProductInfo />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/allproduct" element={<AllProduct />} />
+          <Route path="/rentproduct" element={
+            <ProtectedRouteForAdmin>
+              <RentProduct />
+            </ProtectedRouteForAdmin>
+          } />
 
           <Route path="/knowyoursoil" element={<KnowYourSoil />} />
           <Route path="farmstory" element={<FarmStory/>}/>
