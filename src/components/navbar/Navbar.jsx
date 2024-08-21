@@ -120,7 +120,9 @@ const Navbar = () => {
                     <Link to={'/'}>
                         <img src="/km_logo.png" alt="Krishi Mitra" className="h-10 lg:h-14" />
                     </Link>
+                    <Link to={'/'}>
                     <h2 className="text-3xl font-bold new-amsterdam-regular ml-2 text-[#6AC128]">Krishi Mitra</h2>
+                    </Link>
                 </div>
                 <div className="hidden lg:block montserrat items-center space-x-6">
                     {navList}

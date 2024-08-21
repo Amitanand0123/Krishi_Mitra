@@ -3,6 +3,11 @@ import axios from "axios";
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/footer/Footer';
 import { FaTemperatureHigh, FaWind, FaTint, FaCloudRain } from 'react-icons/fa';
+import { CohereClient } from "cohere-ai";
+
+const cohere = new CohereClient({
+  token: import.meta.env.VITE_WEATHER_COHERE_API_KEY,
+});
 
 const WeatherPage = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -40,7 +45,7 @@ const WeatherPage = () => {
             `https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&timezone=Asia%2FBangkok`
           );
           setWeatherData(response.data);
-          generateMessage(response.data);
+          generateAdvice(response.data);
         } catch (error) {
           console.error("Error fetching weather data:", error);
           setError("Error fetching weather data. Please try again later.");
@@ -51,45 +56,41 @@ const WeatherPage = () => {
     }
   }, [location]);
 
-  const generateMessage = (data) => {
+  const generateAdvice = async (data) => {
     const temperature = data.current.temperature_2m;
     const precipitation = data.current.precipitation;
     const humidity = data.current.relative_humidity_2m;
     const windSpeed = data.current.wind_speed_10m;
-    let message = '';
-  
-    // High temperature, low precipitation, and moderate humidity
-    if (temperature > 35 && precipitation < 2 && humidity < 60) {
-      message += "🔥 It's a blazing hot day with little chance of rain. Make sure to irrigate your crops in the early morning or late evening to prevent evaporation losses. Consider using mulch to retain soil moisture. ";
+
+    const prompt = `
+      Provide a farming advisory message based on the following weather conditions:
+      Temperature: ${temperature}°C
+      Precipitation: ${precipitation} mm
+      Humidity: ${humidity}%
+      Wind Speed: ${windSpeed} km/h
+    `;
+
+    try {
+      const response = await cohere.generate({
+        model: 'command',
+        prompt: prompt,
+        max_tokens: 200,
+        temperature: 0.7,
+        k: 0,
+        p: 0.75,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        stop_sequences: ["--"],
+        return_likelihoods: 'NONE'
+      });
+
+      setMessage(response.generations[0].text);
+    } catch (error) {
+      console.error("Error generating advice:", error);
+      setMessage("Error generating advice. Please try again later.");
     }
-  
-    // High temperature with high humidity
-    if (temperature > 35 && humidity > 80) {
-      message += "🥵 It's a hot and humid day! Your crops might be at risk of heat stress and fungal infections. Ensure proper ventilation in greenhouses and monitor your crops closely. ";
-    }
-  
-    // Heavy rainfall with high humidity
-    if (precipitation > 10 && humidity > 80) {
-      message += "🌧️🌫️ Expect heavy rain coupled with high humidity. This could create perfect conditions for fungal growth. Check your drainage systems and consider using fungicides to protect your crops. ";
-    }
-  
-    // High wind speed with dry conditions
-    if (windSpeed > 20 && precipitation < 1) {
-      message += "💨 The winds are strong today, and the air is dry. Secure any loose tools, and ensure your plants are well-anchored to prevent damage. Dust levels may be higher, so consider covering delicate plants. ";
-    }
-  
-    // Mild weather conditions
-    if (temperature < 30 && precipitation < 5 && windSpeed < 15 && humidity < 70) {
-      message += "🌤️ The weather today is ideal for farming! With moderate temperatures and calm winds, it's a perfect time to carry out routine tasks or consider planting new crops. ";
-    }
-  
-    // Catch-all for favorable weather
-    if (!message) {
-      message = "🌿 The weather is looking good for farming! Take advantage of these favorable conditions to tend to your crops and prepare for the coming days.";
-    }
-  
-    setMessage(message);
   };
+
 
 
   return (

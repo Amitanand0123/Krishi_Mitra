@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Layout from "../../components/layout/Layout";
-import { storage, fireDB } from "../../firebase/FirebaseConfig";
+import { fireDB, storage } from "../../firebase/FirebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 import { FaSeedling, FaCloudUploadAlt, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
-
+import { auth } from "../../firebase/FirebaseConfig";
 
 const KnowYourSoil = () => {
   const [selectedTests, setSelectedTests] = useState([]);
@@ -25,6 +27,7 @@ const KnowYourSoil = () => {
   };
 
   const handleFileChange = (e) => {
+    console.log('File selected:', e.target.files[0]);
     setSoilPhoto(e.target.files[0]);
   };
 
@@ -33,13 +36,20 @@ const KnowYourSoil = () => {
     setLoading(true);
 
     try {
+      // Check if user is authenticated
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('User must be logged in to submit a booking');
+      }
+
       // Upload the soil photo
-      const photoRef = storage.ref().child(`soil_photos/${soilPhoto.name}`);
-      await photoRef.put(soilPhoto);
-      const photoURL = await photoRef.getDownloadURL();
+      const photoRef = ref(storage, `soil_photos/${soilPhoto.name}`);
+      await uploadBytes(photoRef, soilPhoto);
+      const photoURL = await getDownloadURL(photoRef);
 
       // Save the form data
-      await fireDB.collection('soilBookings').add({
+      await addDoc(collection(fireDB, 'soilBookings'), {
+        userId: user.uid, // Add the userId here
         selectedTests,
         soilPhotoURL: photoURL,
         soilType,
@@ -53,7 +63,8 @@ const KnowYourSoil = () => {
 
       setSuccess(true);
     } catch (err) {
-      setError('Failed to submit the form. Please try again.');
+      console.error('Form submission error:', err);
+      setError(`Failed to submit the form: ${err.message}`);
     }
 
     setLoading(false);
@@ -99,7 +110,7 @@ const KnowYourSoil = () => {
                     <p className="mb-2 text-sm text-green-700"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                     <p className="text-xs text-green-600">PNG, JPG or GIF (MAX. 800x400px)</p>
                   </div>
-                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
+                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} disabled={loading} />
                 </label>
               </div>
             </section>
