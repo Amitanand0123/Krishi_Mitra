@@ -55,12 +55,14 @@ const ProductDetail = () => {
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Title</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Price</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Category</th>
+                            <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Contact</th>
+                            <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Location</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100"> Date</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Action</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-green-100 text-slate-700 bg-slate-100">Action</th>
                         </tr>
                         {getAllProduct.map((item, index) => {
-                            const { id, title, price, category, date, productImageUrl } = item
+                            const { id, title, price, category, date, productImageUrl, contact, location } = item
                             return (
                                 <tr key={index} className="text-green-300">
                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 ">
@@ -79,6 +81,12 @@ const ProductDetail = () => {
                                     </td>
                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                                         {category}
+                                    </td>
+                                    <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
+                                        {location}
+                                    </td>
+                                    <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
+                                        {contact}
                                     </td>
                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-green-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                                         {date}

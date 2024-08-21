@@ -61,7 +61,7 @@ const CategoryPage = () => {
 
                                         <>
                                              {filterProduct.map((item, index) => {
-                            const { id, title, price, productImageUrl } = item
+                            const { id, title, price, productImageUrl, location, contact } = item
                             return (
                                 <div key={index} className="p-4 w-full md:w-1/4">
                                     <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
@@ -80,6 +80,12 @@ const CategoryPage = () => {
                                             </h1>
                                             <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
                                                 ₹{price}
+                                            </h1>
+                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                                                {location}
+                                            </h1>
+                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                                                {contact}
                                             </h1>
 
                                             <div

@@ -80,6 +80,7 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>{t('know_your_soil')}</Link>
             </li>
+
             <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faBlog} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>{t('farm_blog')}</Link>

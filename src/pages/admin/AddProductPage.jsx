@@ -34,6 +34,8 @@ const AddProductPage = () => {
         price: "",
         productImageUrl: "",
         category: "",
+        location: "",
+        contact: "",
         description: "",
         quantity : 1,
         time: Timestamp.now(),
@@ -50,7 +52,7 @@ const AddProductPage = () => {
 
     // Add Product Function
     const addProductFunction = async () => {
-        if (product.title == "" || product.price == "" || product.productImageUrl == "" || product.category == "" || product.description == "") {
+        if (product.title == "" || product.price == "" || product.productImageUrl == "" || product.category == "" || product.description == ""|| product.location == "" || product.contact == "") {
             return toast.error("all fields are required")
         }
 
@@ -167,6 +169,40 @@ const AddProductPage = () => {
                             }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-green-300 bg-green-50 border border-green-200 rounded-md outline-none placeholder-green-300 ">
 
                         </textarea>
+                    </div>
+
+                    {/* Input Six  */}
+                    <div className="mb-3">
+                        <input
+                            type="text"
+                            name="location"
+                            value={product.location}
+                            onChange={(e) => {
+                                setProduct({
+                                    ...product,
+                                    location: e.target.value
+                                })
+                            }}
+                            placeholder='Renter Location'
+                            className='bg-green-50 border text-green-300 border-green-200 px-2 py-2 w-96 rounded-md outline-none placeholder-green-300'
+                        />
+                    </div>
+
+                     {/* Input Seven  */}
+                     <div className="mb-3">
+                        <input
+                            type="number"
+                            name="contact"
+                            value={product.contact}
+                            onChange={(e) => {
+                                setProduct({
+                                    ...product,
+                                    contact: e.target.value
+                                })
+                            }}
+                            placeholder='Renter Contact No.'
+                            className='bg-green-50 border text-green-300 border-green-200 px-2 py-2 w-96 rounded-md outline-none placeholder-green-300'
+                        />
                     </div>
 
                     {/* Add Product Button  */}
