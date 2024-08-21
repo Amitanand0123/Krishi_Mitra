@@ -36,7 +36,7 @@ const Navbar = () => {
         const newLang = e.target.value;
         setLang(newLang);
         i18n.changeLanguage(newLang);
-        let loc = "http://localhost:5173/";
+        let loc = "https://krishi-mitra-blond.vercel.app/";
         window.location.replace(loc + "?lng=" + newLang);
     };
 

@@ -23,7 +23,7 @@ const Signup = () => {
     password: "",
     role: "user",
     image: null,
-    location: "",
+    location: ""
   });
 
   // Handle image file change
