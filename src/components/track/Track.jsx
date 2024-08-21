@@ -1,4 +1,5 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useTranslation } from 'react-i18next';
 
 const features = [
     {
@@ -8,7 +9,7 @@ const features = [
     },
     {
         icon: 'fa-cart-shopping',
-        title: 'Farmer\'s Marketplace',
+        title: 'Farmers Marketplace',
         description: 'A marketplace for farmers to sell their products and services without the need of intermediaries.'
     },
     {
@@ -34,19 +35,21 @@ const features = [
 ];
 
 const Track = () => {
+    const { t } = useTranslation(); // Initialize useTranslation hook
+    
     return (
         <section>
             <div className="container mx-auto px-5 py-10 md:py-14 text-center">
-                <h3 className="text-gray-500 font-semibold text-sm">Reasons to Choose Us</h3>
-                <h2 className="montserrat text-3xl font-bold mb-10 mt-5">WHAT WE ARE DOING</h2>
+                <h3 className="text-gray-500 font-semibold text-sm">{t('reasons_to_choose_us')}</h3>
+                <h2 className="montserrat text-3xl font-bold mb-10 mt-5">{t('what_we_are_doing')}</h2>
 
                 <div className="flex flex-wrap justify-center -m-4">
                     {features.map((feature, index) => (
                         <div key={index} className="p-4 md:w-1/3 sm:w-1/2 w-full">
                             <div className="bg-white border-2 border-gray-200 rounded-lg px-6 py-8 hover:shadow-xl transition-shadow">
                                 <i className={`fas ${feature.icon} text-5xl mb-4 text-[#6AC128]`}></i>
-                                <h2 className="title-font font-medium text-xl text-gray-900">{feature.title}</h2>
-                                <p className="leading-relaxed text-gray-600 mt-2">{feature.description}</p>
+                                <h2 className="title-font font-medium text-xl text-gray-900">{t(feature.title.toLowerCase().replace(/ /g, '_'))}</h2>
+                                <p className="leading-relaxed text-gray-600 mt-2">{t(`${feature.title.toLowerCase().replace(/ /g, '_')}_description`)}</p>
                             </div>
                         </div>
                     ))}
