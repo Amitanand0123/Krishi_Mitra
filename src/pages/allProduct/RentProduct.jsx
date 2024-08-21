@@ -9,12 +9,9 @@ import toast from "react-hot-toast";
 
 const categoriesData = [
     { name: "All", image: "/img/all.jpeg" },
-    { name: "Electronics", image: "/img/electro.jpeg" },
+    { name: "Vehicles", image: "/img/electro.jpeg" },
     { name: "Tools", image: "/img/tools-image.jpeg" },
-    { name: "Seeds", image: "/img/seeds.jpeg" },
-    { name: "Machinery", image: "/img/machinery_user.jpeg" },
-    { name: "Fertilizers", image: "/img/ferti.jpeg" },
-    { name: "Irrigation", image: "/img/irri.jpeg" }
+    { name: "Electronics", image: "/img/electronics_farming.jpg" }
 ];
 
 const user = JSON.parse(localStorage.getItem('users'));
