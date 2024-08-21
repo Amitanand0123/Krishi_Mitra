@@ -1,21 +1,21 @@
 import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
-import { useContext, useEffect, useState } from "react";
-import myContext from "../../context/myContext";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 import Loader from "../../components/loader/Loader";
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import icons for arrows
+import { collection, getDocs } from "firebase/firestore";
+import { fireDB } from "../../firebase/FirebaseConfig";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 
 const AllProduct = () => {
     const navigate = useNavigate();
-    const context = useContext(myContext);
-    const { loading, getAllProduct } = context;
-
-    const cartItems = useSelector((state) => state.cart);
     const dispatch = useDispatch();
-
+    const cartItems = useSelector((state) => state.cart);
+    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("all");
 
     const categoriesData = [
@@ -27,6 +27,22 @@ const AllProduct = () => {
         { name: "Fertilizers", image: "/img/ferti.jpeg" },
         { name: "Irrigation", image: "/img/irri.jpeg" }
     ];
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(fireDB, "rentProducts"));
+                const fetchedProducts = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                setProducts(fetchedProducts);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching products: ", error);
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const addCart = (item) => {
         dispatch(addToCart(item)); 
@@ -51,9 +67,9 @@ const AllProduct = () => {
         setSelectedCategory(category.toLowerCase());
     };
 
-    const filteredProducts = selectedCategory === "all" 
-        ? getAllProduct 
-        : getAllProduct.filter(product => product.category.toLowerCase() === selectedCategory);
+    const filteredProducts = selectedCategory === "all"
+        ? products
+        : products.filter(product => product.category?.toLowerCase() === selectedCategory);
 
     return (
         <Layout>
@@ -137,44 +153,66 @@ const AllProduct = () => {
                                 <p className="text-center w-full">No products available in this category.</p>
                             ) : (
                                 filteredProducts.map((item, index) => {
-                                    const { id, title, price, productImageUrl } = item;
+                                    const { id, title, price, productImageUrl, description, authorName, authorImageURL, timestamp } = item;
+                                    const date = timestamp ? new Date(timestamp.seconds * 1000).toLocaleDateString('en-GB', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    }) : "Unknown date";
+                                    
                                     return (
                                         <div
                                             key={index}
-                                            className="p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
+                                            className="p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/"
                                         >
-                                            <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md flex flex-col">
+                                            <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-lg flex flex-col">
                                                 <img
                                                     onClick={() =>
                                                         navigate(`/productinfo/${id}`)
                                                     }
-                                                    className="lg:h-64 h-48 w-full object-cover cursor-pointer"
+                                                    className="lg:h-64 h-48 w-full object-cover cursor-pointer hover:opacity-90 transition duration-300"
                                                     src={productImageUrl}
                                                     alt={title}
                                                 />
                                                 <div className="p-6 flex flex-col justify-between flex-grow">
                                                     <div>
-                                                        <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                                                            {title.substring(0, 25)}
+                                                        <h1 className="title-font text-lg font-semibold text-gray-900 mb-2">
+                                                            {title.length > 25 ? title.substring(0, 25) + "..." : title}
                                                         </h1>
-                                                        <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                                                        <h1 className="title-font text-xl font-bold text-green-600 mb-3">
                                                             ₹{price}
                                                         </h1>
+                                                        <p className="text-sm text-gray-700 mb-4">
+                                                            {description.length > 50 ? description.substring(0, 50) + "..." : description}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
+                                                        <div className="flex items-center">
+                                                            {authorImageURL && (
+                                                                <img
+                                                                    src={authorImageURL}
+                                                                    alt={authorName}
+                                                                    className="w-8 h-8 rounded-full mr-2"
+                                                                />
+                                                            )}
+                                                            <p>{authorName}</p>
+                                                        </div>
+                                                        <p>{date}</p>
                                                     </div>
                                                     <div className="flex justify-center mt-auto">
                                                         {cartItems.some((p) => p.id === item.id) ? (
                                                             <button
                                                                 onClick={() => deleteCart(item)}
-                                                                className="bg-red-700 hover:bg-red-600 w-full text-white py-2 rounded-lg font-bold"
+                                                                className="bg-red-700 hover:bg-red-600 w-full text-white py-2 rounded-lg font-bold transition duration-300"
                                                             >
                                                                 Delete From Cart
                                                             </button>
                                                         ) : (
                                                             <button
                                                                 onClick={() => addCart(item)}
-                                                                className="bg-green-500 hover:bg-green-600 w-full text-white py-2 rounded-lg font-bold"
+                                                                className="bg-green-500 hover:bg-green-600 w-full text-white py-2 rounded-lg font-bold transition duration-300"
                                                             >
-                                                                Add To Cart
+                                                                Rent
                                                             </button>
                                                         )}
                                                     </div>
@@ -184,6 +222,16 @@ const AllProduct = () => {
                                     );
                                 })
                             )}
+                        </div>
+
+                        {/* List Product for Rent */}
+                        <div className="text-center mt-8">
+                            <Link
+                                to="/rentproduct"
+                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#6AC128] hover:bg-[#5aa622]"
+                            >
+                                List Your Equipment for Rent
+                            </Link>
                         </div>
                     </div>
                 </section>
