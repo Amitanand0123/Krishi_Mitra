@@ -23,6 +23,7 @@ const Signup = () => {
     password: "",
     role: "user",
     image: null,
+    location: "",
   });
 
   // Handle image file change
@@ -40,7 +41,7 @@ const Signup = () => {
   *========================================================================**/
   const userSignupFunction = async () => {
     // validation 
-    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
+    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "" || userSignup.location==="") {
       toast.error("All Fields are required");
       return;
     }
@@ -141,6 +142,17 @@ const Signup = () => {
             placeholder='Enter your password'
             value={userSignup.password}
             onChange={(e) => setUserSignup({ ...userSignup, password: e.target.value })}
+            className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400 transition'
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Location</label>
+          <input
+            type="text"
+            placeholder='abc'
+            value={userSignup.location}
+            onChange={(e) => setUserSignup({ ...userSignup, location: e.target.value })}
             className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400 transition'
           />
         </div>
