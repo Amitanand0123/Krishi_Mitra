@@ -94,7 +94,7 @@ const CartPage = () => {
             <div className="container mx-auto px-4 max-w-7xl lg:px-0">
                 <div className="mx-auto max-w-2xl py-8 lg:max-w-7xl">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Shopping Cart
+                        Rental Cart
                     </h1>
                     <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                         <section aria-labelledby="cart-heading" className="rounded-lg bg-white lg:col-span-8">
@@ -106,7 +106,7 @@ const CartPage = () => {
 
                                     <>
                                         {cartItems.map((item, index) => {
-                                            const { id, title, price, productImageUrl, quantity, category } = item
+                                            const { id, title, price, productImageUrl, quantity, category, location } = item
                                             return (
                                                 <div key={index} className="">
                                                     <li className="flex py-6 sm:py-6 ">
@@ -134,6 +134,11 @@ const CartPage = () => {
                                                                     <div className="mt-1 flex items-end">
                                                                         <p className="text-sm font-medium text-gray-900">
                                                                             ₹{price}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="mt-1 flex items-end">
+                                                                        <p className="text-sm font-medium text-gray-900">
+                                                                            {location}
                                                                         </p>
                                                                     </div>
                                                                 </div>

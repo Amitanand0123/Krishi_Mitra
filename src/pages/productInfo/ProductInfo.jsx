@@ -109,6 +109,12 @@ const ProductInfo = () => {
                                     <p className="text-sm text-gray-700 mb-4">
                                         {product.description}
                                     </p>
+                                    <h2 className="title-font text-xl font-bold text-green-600 mb-3">
+                                        {product.location}
+                                    </h2>
+                                    <h2 className="title-font text-xl font-bold text-green-600 mb-3">
+                                        {product.contact}
+                                    </h2>
                                     <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
                                         <div className="flex items-center">
                                             {product.authorImageURL && (

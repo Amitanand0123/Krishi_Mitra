@@ -1,28 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faSignInAlt, faUserPlus, faCloud, faBlog } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faSignInAlt, faUserPlus, faBlog } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import "../../i18n.js"
-import { useEffect } from "react";
+import "../../i18n.js";
  
 const languages = [
-    {value: "", text: "Options"},
+    { value: "", text: "Options" },
     { value: "en", text: "English" },
     { value: "hi", text: "Hindi" },
-    { value: "te", text: "Telugu"},
-    { value: "kn", text: "Kannada"},
-    { value: "pa", text: "Punjabi"},
-    { value: "bho", text: "Bhojpuri"},
-    { value: "ta", text: "Tamil"},
-    { value: "bn", text: "Bengali"},
-
+    { value: "te", text: "Telugu" },
+    { value: "kn", text: "Kannada" },
+    { value: "pa", text: "Punjabi" },
+    { value: "bho", text: "Bhojpuri" },
+    { value: "ta", text: "Tamil" },
+    { value: "bn", text: "Bengali" },
 ];
-
-
- 
 
 const Navbar = () => {
     const { t, i18n } = useTranslation(); // Access i18n from the useTranslation hook
@@ -45,13 +40,13 @@ const Navbar = () => {
         setLang(i18n.language);
     }, [i18n.language]);
 
-    // logout function 
+    // Logout function 
     const logout = () => {
         localStorage.removeItem('users');
         navigate("/");
         toast.success("Logout Success");
         localStorage.removeItem('cart');
-    }
+    };
 
     const cartItems = useSelector((state) => state.cart);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -63,26 +58,17 @@ const Navbar = () => {
     };
 
     const navList = (
-        
-        
-           
-        
         <ul className="flex flex-col space-y-8 px-5 font-medium text-md lg:flex-row lg:space-y-0 lg:space-x-6 montserrat">
             <li>
-            <select value={lang} onChange={handleChange}>
-                {languages.map((item) => {
-                    return (
-                        <option
-                            key={item.value}
-                            value={item.value}
-                        >
+                <select value={lang} onChange={handleChange}>
+                    {languages.map((item) => (
+                        <option key={item.value} value={item.value}>
                             {item.text}
                         </option>
-                    );
-                })}
-            </select>
+                    ))}
+                </select>
             </li>
-             <li className="flex items-center space-x-2">
+            <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faHome} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/'} onClick={() => setIsMobileMenuOpen(false)}>{t('home')}</Link>
             </li>
@@ -94,6 +80,7 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>{t('know_your_soil')}</Link>
             </li>
+
             <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faBlog} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>{t('farm_blog')}</Link>
@@ -143,14 +130,14 @@ const Navbar = () => {
                             {user && (
                                 <>
                                     <li className="hover:bg-gray-200 transition duration-200">
-                                      <Link 
-                                          to={user.role === "user" ? '/user-dashboard' : '/admin-dashboard'} 
-                                          className="block px-4 py-2"
-                                          onClick={() => setIsProfileDropdownOpen(false)}
-                                      >
-                                          My Account
-                                      </Link>
-                                  </li>
+                                        <Link 
+                                            to={user.role === "user" ? '/user-dashboard' : '/admin-dashboard'} 
+                                            className="block px-4 py-2"
+                                            onClick={() => setIsProfileDropdownOpen(false)}
+                                        >
+                                            My Account
+                                        </Link>
+                                    </li>
                                     <li className="cursor-pointer hover:bg-gray-200 transition duration-200 block px-4 py-2" onClick={logout}>
                                         Logout
                                     </li>
@@ -171,7 +158,7 @@ const Navbar = () => {
                         <img src="/km_logo.png" alt="Krishi Mitra" className="h-10 lg:h-14" />
                     </Link>
                     <Link to={'/'}>
-                    <h2 className="text-3xl font-bold new-amsterdam-regular ml-2 text-[#6AC128]">Krishi Mitra</h2>
+                        <h2 className="text-3xl font-bold new-amsterdam-regular ml-2 text-[#6AC128]">Krishi Mitra</h2>
                     </Link>
                 </div>
                 <div className="hidden lg:block montserrat items-center space-x-6">

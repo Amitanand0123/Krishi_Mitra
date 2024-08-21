@@ -1,22 +1,17 @@
-/* eslint-disable react/no-unescaped-entities */
-import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import myContext from "../../context/myContext";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { auth, fireDB, storage } from "../../firebase/FirebaseConfig";
+import { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import toast from "react-hot-toast";
+import { addDoc, collection } from "firebase/firestore";
+import { auth, storage, fireDB } from "../../firebase";
 import Loader from "../../components/loader/Loader";
 
 const Signup = () => {
-  const context = useContext(myContext);
-  const { loading, setLoading } = context;
-
-  // navigate 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  // User Signup State 
   const [userSignup, setUserSignup] = useState({
     name: "",
     email: "",
@@ -26,7 +21,6 @@ const Signup = () => {
     location: ""
   });
 
-  // Handle image file change
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setUserSignup({
@@ -36,12 +30,8 @@ const Signup = () => {
     }
   };
 
-  /**========================================================================
-   *                          User Signup Function 
-  *========================================================================**/
   const userSignupFunction = async () => {
-    // validation 
-    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "" || userSignup.location==="") {
+    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "" || userSignup.location === "") {
       toast.error("All Fields are required");
       return;
     }
@@ -50,7 +40,6 @@ const Signup = () => {
     try {
       const users = await createUserWithEmailAndPassword(auth, userSignup.email, userSignup.password);
 
-      // If an image is uploaded, store it in Firebase Storage
       let imageURL = "";
       if (userSignup.image) {
         const storageRef = ref(storage, `user_images/${users.user.uid}`);
@@ -58,29 +47,22 @@ const Signup = () => {
         imageURL = await getDownloadURL(storageRef);
       }
 
-      // create user object
       const user = {
         name: userSignup.name,
         email: users.user.email,
         uid: users.user.uid,
         role: userSignup.role,
-        imageURL: imageURL,  // Add imageURL to the user object
-        time: Timestamp.now(),
-        date: new Date().toLocaleString(
-          "en-US",
-          {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          }
-        )
-      }
+        imageURL: imageURL,
+        time: new Date().getTime(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        })
+      };
 
-      // create user reference
-      const userRefrence = collection(fireDB, "user");
-
-      // Add User Detail
-      await addDoc(userRefrence, user);
+      const userRef = collection(fireDB, "users");
+      await addDoc(userRef, user);
 
       setUserSignup({
         name: "",
@@ -89,12 +71,13 @@ const Signup = () => {
         image: null
       });
 
-      toast.success("Signup Successfully");
+      toast.success("Signup Successful");
 
       setLoading(false);
       navigate('/login');
     } catch (error) {
-      console.log(error);
+      console.error("Error signing up:", error);
+      toast.error("Signup Failed. Please try again.");
       setLoading(false);
     }
   };
@@ -104,13 +87,10 @@ const Signup = () => {
       {loading && <Loader />}
       <div className="signup_form bg-white px-10 py-8 border border-green-100 rounded-xl shadow-lg w-full max-w-md">
         <div className="mb-5 text-center">
-          <h2 className='text-3xl font-bold text-green-500 mb-2'>
-            Sign Up
-          </h2>
+          <h2 className='text-3xl font-bold text-green-500 mb-2'>Sign Up</h2>
           <p className="text-gray-600">Join our community of farmers!</p>
         </div>
 
-        {/* Full Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Full Name</label>
           <input
@@ -122,7 +102,6 @@ const Signup = () => {
           />
         </div>
 
-        {/* Email Address */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Email Address</label>
           <input
@@ -134,7 +113,6 @@ const Signup = () => {
           />
         </div>
 
-        {/* Password */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Password</label>
           <input
@@ -150,14 +128,13 @@ const Signup = () => {
           <label className="block text-gray-700 font-bold mb-2">Location</label>
           <input
             type="text"
-            placeholder='abc'
+            placeholder='Your Location'
             value={userSignup.location}
             onChange={(e) => setUserSignup({ ...userSignup, location: e.target.value })}
             className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400 transition'
           />
         </div>
 
-        {/* Image Upload */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Profile Picture</label>
           <input
@@ -168,7 +145,6 @@ const Signup = () => {
           />
         </div>
 
-        {/* Role Selection */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Register As</label>
           <select
@@ -181,7 +157,6 @@ const Signup = () => {
           </select>
         </div>
 
-        {/* Signup Button */}
         <div className="mb-4">
           <button
             type='button'
