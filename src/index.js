@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './locales/en.json';
 import es from './locales/es.json';
 
+
 i18n
   .use(HttpBackend)
   .use(LanguageDetector)
