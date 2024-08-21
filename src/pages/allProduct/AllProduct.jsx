@@ -20,12 +20,9 @@ const AllProduct = () => {
 
     const categoriesData = [
         { name: "All", image: "/img/all.jpeg" },
-        { name: "Electronics", image: "/img/electro.jpeg" },
+        { name: "Vehicles", image: "/img/electro.jpeg" },
         { name: "Tools", image: "/img/tools-image.jpeg" },
-        { name: "Seeds", image: "/img/seeds.jpeg" },
-        { name: "Machinery", image: "/img/machinery_user.jpeg" },
-        { name: "Fertilizers", image: "/img/ferti.jpeg" },
-        { name: "Irrigation", image: "/img/irri.jpeg" }
+        { name: "Electronics", image: "/img/electronics_farming.jpg" }
     ];
 
     useEffect(() => {
@@ -143,6 +140,16 @@ const AllProduct = () => {
                     </div>
                 </div>
 
+                {/* List Product for Rent */}
+                <div className="text-center mt-8">
+                            <Link
+                                to="/rentproduct"
+                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#6AC128] hover:bg-[#5aa622]"
+                            >
+                                List Your Equipment for Rent
+                            </Link>
+                        </div>
+
                 {/* Main Product Listing */}
                 <section className="text-gray-600 body-font">
                     <div className="container px-5 lg:px-0 py-5 mx-auto">
@@ -225,15 +232,7 @@ const AllProduct = () => {
                             )}
                         </div>
 
-                        {/* List Product for Rent */}
-                        <div className="text-center mt-8">
-                            <Link
-                                to="/rentproduct"
-                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#6AC128] hover:bg-[#5aa622]"
-                            >
-                                List Your Equipment for Rent
-                            </Link>
-                        </div>
+                        
                     </div>
                 </section>
             </div>
