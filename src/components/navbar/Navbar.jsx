@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faShoppingBag, faBars, faTimes, faHome, faStore, faLeaf, faSignInAlt, faUserPlus, faBlog } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
- 
+
 const languages = [
     { value: "", text: "Options" },
     { value: "en", text: "English" },
@@ -80,7 +80,6 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>{t('know_your_soil')}</Link>
             </li>
-
             <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faBlog} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>{t('farm_blog')}</Link>

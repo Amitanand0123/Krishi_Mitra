@@ -1,16 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import myContext from "../../context/myContext";
 import { useNavigate } from "react-router";
 
 
-const SearchBar = () => {
+const SearchBar = ({products}) => {
     const context = useContext(myContext);
     const { getAllProduct } = context
     // Search State 
     const [search, setSearch] = useState("");
 
     // Filter Search Data
-    const filterSearchData = getAllProduct.filter((obj) => obj.title.toLowerCase().includes(search)).slice(0, 8)
+    const filterSearchData = useMemo(() => {
+        return products.filter((obj) =>
+          obj.title.toLowerCase().includes(search.toLowerCase())
+        ).slice(0, 8);
+      }, [products, search]);
 
     const navigate = useNavigate();
 
