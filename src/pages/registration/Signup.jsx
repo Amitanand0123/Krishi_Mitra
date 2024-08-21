@@ -13,20 +13,20 @@ const Signup = () => {
   const context = useContext(myContext);
   const { loading, setLoading } = context;
 
-  // navigate 
   const navigate = useNavigate();
 
-  // User Signup State 
   const [userSignup, setUserSignup] = useState({
     name: "",
     email: "",
     password: "",
     role: "user",
     image: null,
-    location: ""
+    location: "",
+    aadharNumber: "", // Added for Aadhaar number
+    governmentIDImage: null, // Added for Government ID image
   });
 
-  // Handle image file change
+  // Handle image file change for profile picture
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setUserSignup({
@@ -36,12 +36,18 @@ const Signup = () => {
     }
   };
 
-  /**========================================================================
-   *                          User Signup Function 
-  *========================================================================**/
+  // Handle government ID image change
+  const handleIDImageChange = (e) => {
+    if (e.target.files[0]) {
+      setUserSignup({
+        ...userSignup,
+        governmentIDImage: e.target.files[0]
+      });
+    }
+  };
+
   const userSignupFunction = async () => {
-    // validation 
-    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "" || userSignup.location==="") {
+    if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "" || userSignup.location === "" || userSignup.aadharNumber === "") {
       toast.error("All Fields are required");
       return;
     }
@@ -50,7 +56,6 @@ const Signup = () => {
     try {
       const users = await createUserWithEmailAndPassword(auth, userSignup.email, userSignup.password);
 
-      // If an image is uploaded, store it in Firebase Storage
       let imageURL = "";
       if (userSignup.image) {
         const storageRef = ref(storage, `user_images/${users.user.uid}`);
@@ -58,39 +63,44 @@ const Signup = () => {
         imageURL = await getDownloadURL(storageRef);
       }
 
-      // create user object
+      let governmentIDImageURL = "";
+      if (userSignup.governmentIDImage) {
+        const idStorageRef = ref(storage, `government_ids/${users.user.uid}`);
+        await uploadBytes(idStorageRef, userSignup.governmentIDImage);
+        governmentIDImageURL = await getDownloadURL(idStorageRef);
+      }
+
       const user = {
         name: userSignup.name,
         email: users.user.email,
         uid: users.user.uid,
         role: userSignup.role,
-        imageURL: imageURL,  // Add imageURL to the user object
+        imageURL: imageURL,
+        aadharNumber: userSignup.aadharNumber, // Store Aadhaar number
+        governmentIDImageURL: governmentIDImageURL, // Store Government ID image URL
         time: Timestamp.now(),
-        date: new Date().toLocaleString(
-          "en-US",
-          {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          }
-        )
-      }
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+      };
 
-      // create user reference
       const userRefrence = collection(fireDB, "user");
-
-      // Add User Detail
       await addDoc(userRefrence, user);
 
       setUserSignup({
         name: "",
         email: "",
         password: "",
-        image: null
+        role: "user",
+        image: null,
+        location: "",
+        aadharNumber: "", // Reset Aadhaar number
+        governmentIDImage: null, // Reset Government ID image
       });
 
       toast.success("Signup Successfully");
-
       setLoading(false);
       navigate('/login');
     } catch (error) {
@@ -146,24 +156,48 @@ const Signup = () => {
           />
         </div>
 
+        {/* Location */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Location</label>
           <input
             type="text"
-            placeholder='abc'
+            placeholder='Enter your location'
             value={userSignup.location}
             onChange={(e) => setUserSignup({ ...userSignup, location: e.target.value })}
             className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400 transition'
           />
         </div>
 
-        {/* Image Upload */}
+        {/* Aadhaar Number */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Aadhaar Number</label>
+          <input
+            type="text"
+            placeholder='Enter your Aadhaar number'
+            value={userSignup.aadharNumber}
+            onChange={(e) => setUserSignup({ ...userSignup, aadharNumber: e.target.value })}
+            className='bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400 transition'
+          />
+        </div>
+
+        {/* Profile Picture */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Profile Picture</label>
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
+            className="bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
+          />
+        </div>
+
+        {/* Government ID Upload */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Government ID Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleIDImageChange}
             className="bg-green-50 border border-green-200 px-4 py-2 w-full rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
           />
         </div>
@@ -193,9 +227,10 @@ const Signup = () => {
         </div>
 
         <div className="text-center">
-          <p className='text-gray-600'>
-            Already have an account? <Link className='text-green-500 font-bold' to={'/login'}>Login</Link>
-          </p>
+          Already have an account?{" "}
+          <Link to="/login" className='text-green-500 hover:underline'>
+            Login here
+          </Link>
         </div>
       </div>
     </div>
