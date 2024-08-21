@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I assist you today?' }]);
+  // Initialize the chatbot's open state based on localStorage
+  const [isOpen, setIsOpen] = useState(
+    () => localStorage.getItem('chatbotOpen') === 'true'
+  );
+  const [messages, setMessages] = useState([
+    { sender: 'bot', text: 'Hello! How can I assist you today?' },
+  ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    // Update localStorage whenever isOpen changes
+    localStorage.setItem('chatbotOpen', isOpen);
+  }, [isOpen]);
 
   const generateResponse = async (prompt) => {
     try {
@@ -18,13 +28,13 @@ const Chatbot = () => {
           temperature: 0.9,
           k: 0,
           stop_sequences: [],
-          return_likelihoods: 'NONE'
+          return_likelihoods: 'NONE',
         },
         {
           headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_COHERE_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${import.meta.env.VITE_COHERE_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
         }
       );
       return response.data.generations[0].text.trim();
@@ -42,14 +52,19 @@ const Chatbot = () => {
     setInput('');
     setLoading(true);
 
-    const conversationHistory = newMessages.map(msg => `${msg.sender}: ${msg.text}`).join('\n');
+    const conversationHistory = newMessages
+      .map((msg) => `${msg.sender}: ${msg.text}`)
+      .join('\n');
     const prompt = `${conversationHistory}\nbot:`;
 
     try {
       const botResponse = await generateResponse(prompt);
       setMessages([...newMessages, { sender: 'bot', text: botResponse }]);
     } catch (error) {
-      setMessages([...newMessages, { sender: 'bot', text: 'Sorry, something went wrong. Please try again.' }]);
+      setMessages([
+        ...newMessages,
+        { sender: 'bot', text: 'Sorry, something went wrong. Please try again.' },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -71,8 +86,19 @@ const Chatbot = () => {
         onClick={toggleChatbot}
         className="fixed bottom-6 right-6 p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-all"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+          />
         </svg>
       </button>
     );
@@ -83,14 +109,25 @@ const Chatbot = () => {
       <div className="flex justify-between items-center p-3 border-b border-gray-200">
         <h3 className="font-semibold">Chatbot</h3>
         <button onClick={toggleChatbot} className="text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
       <div className="flex flex-col flex-grow p-4 overflow-y-auto space-y-4 max-h-96">
         {messages.map((msg, index) => (
-          <div key={index} className={`p-3 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white self-end" : "bg-gray-200 self-start"}`}>
+          <div
+            key={index}
+            className={`p-3 rounded-lg ${
+              msg.sender === 'user' ? 'bg-blue-500 text-white self-end' : 'bg-gray-200 self-start'
+            }`}
+          >
             {msg.text}
           </div>
         ))}
