@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 import Loader from "../../components/loader/Loader";
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import icons for arrows
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const AllProduct = () => {
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AllProduct = () => {
     ];
 
     const addCart = (item) => {
-        dispatch(addToCart(item)); 
+        dispatch(addToCart(item));
         toast.success("Added to cart");
     };
 
@@ -51,14 +51,14 @@ const AllProduct = () => {
         setSelectedCategory(category.toLowerCase());
     };
 
-    const filteredProducts = selectedCategory === "all" 
-        ? getAllProduct 
+    const filteredProducts = selectedCategory === "all"
+        ? getAllProduct
         : getAllProduct.filter(product => product.category.toLowerCase() === selectedCategory);
 
     return (
         <Layout>
             <div className="py-8">
-                <div className="">
+                <div>
                     <h1 className="text-center mb-5 text-2xl font-semibold">
                         Shop or Rent Products
                     </h1>
@@ -66,6 +66,7 @@ const AllProduct = () => {
 
                 {/* Category Selection */}
                 <div className="relative">
+                    {/* Desktop View */}
                     <div className="hidden sm:flex justify-center flex-wrap mb-5">
                         {normalizedCategories.map((category, index) => (
                             <div
@@ -91,7 +92,7 @@ const AllProduct = () => {
                         ))}
                     </div>
 
-                    {/* Mobile view with left-right arrows */}
+                    {/* Mobile View with Arrows */}
                     <div className="sm:hidden flex items-center">
                         <button className="p-2" onClick={() => document.getElementById('category-scroll').scrollBy({ left: -150, behavior: 'smooth' })}>
                             <FaChevronLeft size={24} />
@@ -126,7 +127,7 @@ const AllProduct = () => {
                     </div>
                 </div>
 
-                {/* Main */}
+                {/* Main Product Listing */}
                 <section className="text-gray-600 body-font">
                     <div className="container px-5 lg:px-0 py-5 mx-auto">
                         <div className="flex justify-center">
