@@ -45,7 +45,7 @@ const AllProduct = () => {
     }, []);
 
     const addCart = (item) => {
-        dispatch(addToCart(item)); 
+        dispatch(addToCart(item));
         toast.success("Added to cart");
     };
 
@@ -74,7 +74,7 @@ const AllProduct = () => {
     return (
         <Layout>
             <div className="py-8">
-                <div className="">
+                <div>
                     <h1 className="text-center mb-5 text-2xl font-semibold">
                         Shop or Rent Products
                     </h1>
@@ -82,6 +82,7 @@ const AllProduct = () => {
 
                 {/* Category Selection */}
                 <div className="relative">
+                    {/* Desktop View */}
                     <div className="hidden sm:flex justify-center flex-wrap mb-5">
                         {normalizedCategories.map((category, index) => (
                             <div
@@ -107,7 +108,7 @@ const AllProduct = () => {
                         ))}
                     </div>
 
-                    {/* Mobile view with left-right arrows */}
+                    {/* Mobile View with Arrows */}
                     <div className="sm:hidden flex items-center">
                         <button className="p-2" onClick={() => document.getElementById('category-scroll').scrollBy({ left: -150, behavior: 'smooth' })}>
                             <FaChevronLeft size={24} />
@@ -142,7 +143,7 @@ const AllProduct = () => {
                     </div>
                 </div>
 
-                {/* Main */}
+                {/* Main Product Listing */}
                 <section className="text-gray-600 body-font">
                     <div className="container px-5 lg:px-0 py-5 mx-auto">
                         <div className="flex justify-center">
@@ -163,7 +164,7 @@ const AllProduct = () => {
                                     return (
                                         <div
                                             key={index}
-                                            className="p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/"
+                                            className="p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
                                         >
                                             <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-lg flex flex-col">
                                                 <img
