@@ -40,10 +40,7 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/knowyoursoil'} onClick={() => setIsMobileMenuOpen(false)}>KNOW YOUR SOIL</Link>
             </li>
-            {/* <li className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faCloud} className="h-6 w-6 text-[#6AC128] lg:hidden" />
-                <Link to={'/weatherpage'} onClick={() => setIsMobileMenuOpen(false)}>WEATHER</Link>
-            </li> */}
+           
             <li className="flex items-center space-x-2">
                 <FontAwesomeIcon icon={faBlog} className="h-6 w-6 text-[#6AC128] lg:hidden" />
                 <Link to={'/blogpage'} onClick={() => setIsMobileMenuOpen(false)}>FARM BLOG</Link>

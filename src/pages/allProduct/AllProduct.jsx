@@ -9,6 +9,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const AllProduct = () => {
     const navigate = useNavigate();
@@ -161,7 +163,7 @@ const AllProduct = () => {
                                 <p className="text-center w-full">No products available in this category.</p>
                             ) : (
                                 filteredProducts.map((item, index) => {
-                                    const { id, title, price, productImageUrl, description, authorName, authorImageURL, timestamp } = item;
+                                    const { id, title, price, location, contact, productImageUrl, description, authorName, authorImageURL, timestamp } = item;
                                     const date = timestamp ? new Date(timestamp.seconds * 1000).toLocaleDateString('en-GB', {
                                         day: 'numeric',
                                         month: 'short',
@@ -193,6 +195,12 @@ const AllProduct = () => {
                                                         <p className="text-sm text-gray-700 mb-4">
                                                             {description.length > 50 ? description.substring(0, 50) + "..." : description}
                                                         </p>
+                                                        <h1 className="title-font text-sm  text-green-600 mb-3">
+                                                        <FontAwesomeIcon icon={faMapLocationDot} className="h-6 w-6 text-[#FF0000] " />                                                  {location}
+                                                        </h1>
+                                                        <h1 className="title-font text-sm text-green-600 mb-3">
+                                                        <FontAwesomeIcon icon={faPhone} className="h-6 w-6 text-[#0000FF] " />                                                    {contact}
+                                                        </h1>
                                                     </div>
                                                     <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
                                                         <div className="flex items-center">

@@ -23,6 +23,8 @@ const RentProduct = () => {
         price: "",
         productImageUrl: "",
         description: "",
+        location: "",
+        contact: "",
         category: categoriesData[0].name, // Set default category without converting to lowercase
         authorName: user?.name || '', // Store author's name
         authorImageURL: user?.imageURL || '', // Store author's image URL
@@ -68,7 +70,7 @@ const RentProduct = () => {
             await addDoc(collection(fireDB, "rentProducts"), productData);
 
             toast.success("Product listed for rent!");
-            setRentProduct({ title: "", price: "", productImageUrl: "", description: "", category: categoriesData[0].name });
+            setRentProduct({ title: "", price: "", productImageUrl: "", description: "", category: categoriesData[0].name, location: "", contact: "" });
             setImageFile(null);
             navigate("/allproduct");
         } catch (error) {
@@ -133,6 +135,36 @@ const RentProduct = () => {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+
+                        <div className="relative">
+                            <label htmlFor="location" className="text-gray-700 text-sm font-medium">
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                name="location"
+                                id="location"
+                                placeholder="Enter the Rental Location"
+                                value={rentProduct.location}
+                                onChange={handleInputChange}
+                                className="mt-2 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-[#6AC128] focus:border-[#6AC128]"
+                            />
+                        </div>
+
+                        <div className="relative">
+                            <label htmlFor="contact" className="text-gray-700 text-sm font-medium">
+                                Contact No.
+                            </label>
+                            <input
+                                type="text"
+                                name="contact"
+                                id="contact"
+                                placeholder="Enter the Renter's Contact No."
+                                value={rentProduct.contact}
+                                onChange={handleInputChange}
+                                className="mt-2 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-[#6AC128] focus:border-[#6AC128]"
+                            />
                         </div>
 
                         <div className="relative">
